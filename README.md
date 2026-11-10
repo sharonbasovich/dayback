@@ -4,6 +4,12 @@
 
 DayBack is a small, local-first prototype for checking whether a study plan still fits after a missed day. It checks capacity **before each deadline**, not only the weekly total, and lets you preview an explicit repair before applying it. Protected commitments and deadlines do not move. Undo restores the previous plan.
 
+## Open the demo
+
+[Try DayBack in your browser](https://sharonbasovich.github.io/dayback/). The free static demo needs no account or API key. It starts with synthetic data; edits stay in page memory and are lost on reload. Baseline, missed day, late/early repair preview, Apply and Undo were checked on the hosted version.
+
+The v0.1.0 release assets remain the original reviewed snapshot; their embedded documentation predates this hosting update. Local run instructions below still apply.
+
 ## A concrete example
 
 The invented student week starts with 7 usable hours for 5 hours of work. Losing Wednesday leaves 5 usable hours, but the first deadline needs 3 hours and has only 1 available before it. The 4 hours later in the week cannot cover that 2-hour shortfall. Adding time on Saturday does not fix Friday; adding genuinely available time on Thursday does.
@@ -47,11 +53,11 @@ An effort revision is an explicit estimate or scope change, not completed work. 
 - Explicit civil dates in one time basis; no timezone conversion, overnight blocks, prerequisites, fatigue or uncertainty model.
 - Non-overlapping study intervals; protected overlap is excluded once. The displayed excluded overlap is not the total duration of all commitments.
 - An infeasible allocation witness is partial, not a complete schedule.
-- All entered data stays in page memory. **Reloading loses the plan.** No persistence, calendar integration, telemetry, AI inference or network service.
+- All entered data stays in page memory. **Reloading loses the plan.** No persistence, calendar integration, telemetry, AI inference or application backend.
 - Responsive layout, focus handling and reduced-motion CSS are implemented. Screen-reader, physical-device and OS reduced-motion runtime acceptance are not established.
 
 ## Development and attribution
 
-Created for the Silicon Valley Buildathon during its November–December 2026 build window. This is an original prototype, not a submitted-entry or award claim. Design, implementation, tests and review were produced with OpenAI AI-assistant assistance. No third-party runtime dependencies or external media assets are included. System fonts are used.
+Created for the Silicon Valley Buildathon during its November–December 2026 build window. This is an original prototype; no award or real-user outcome is claimed. Design, implementation, tests and review were produced with OpenAI AI-assistant assistance. No third-party runtime dependencies or external media assets are included. System fonts are used.
 
 Source is published for inspection and evaluation. No open-source license grant is made in this repository; applicable copyright is retained. Publication does not imply permission for unrestricted reuse.
