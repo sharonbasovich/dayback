@@ -1,0 +1,13 @@
+{
+  "format": "dayback-single-file-v1",
+  "sources": {
+    "index.html": "5c04d2a83900e01cb5a63a7c0046ecde7023ead7f1bb209f965232e0749a4060",
+    "style.css": "e80fdc1f73488322fdcd09d4e30ff44912d210f692a5aeb0db640da209fcbc2f",
+    "core.mjs": "557f2bcb806b0938f7c56ad7686628911b96b0e5ed0b14d0b75da6ec70acdeaa",
+    "sample.mjs": "ecbfd5d00cf42b818ea80115e8244711849ce0f72a4658e61779f5bc3b9bb2e1",
+    "ui-state.mjs": "fef65dcba98b52bf22203e1f05c875995844936de29b242a06b92d8b8fc9af36",
+    "app.mjs": "7a373d931dc94db184ae8d3699e2911e6f07a46feaaef021fd4aa6637a0dd6a1"
+  },
+  "outputSha256": "80b76482b43d3675c79e9cae9db8d39718214bf7f0766730d5bdd2713c79b876",
+  "outputBytes": 57059
+}
