@@ -6,8 +6,8 @@
     "core.mjs": "557f2bcb806b0938f7c56ad7686628911b96b0e5ed0b14d0b75da6ec70acdeaa",
     "sample.mjs": "ecbfd5d00cf42b818ea80115e8244711849ce0f72a4658e61779f5bc3b9bb2e1",
     "ui-state.mjs": "0707a57bc0d1fac692f1c81e921e7e690e125f9525597a4e752152452bca5011",
-    "app.mjs": "2d82a5761ee5b8c26c03cd4c3bb487255dfd989793bc5018797dce049ad90fb9"
+    "app.mjs": "c40d26c325356e5c9fe47847802396eb583102044ab239a32cad37ebd472aa24"
   },
-  "outputSha256": "6f4582c77de52c6c28ca8f33b7d88e9afa500a77e97f0f489a48c08fcef47bd6",
-  "outputBytes": 60015
+  "outputSha256": "4eb9e15507c3fc342de6934472acb7844c2acfe57f900ebe23481402d612dfea",
+  "outputBytes": 60795
 }
