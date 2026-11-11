@@ -5,7 +5,26 @@ const $=id=>document.getElementById(id), app=controller(samplePlan);
 let draft=null, serial=0;
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n};
 const hours=n=>`${n} units / ${n/2}h`;
-function notify(text){$('status').textContent=text}
+// Reserve the measured live-region height and keep keyboard focus above it.
+// The status itself remains keyboard-scrollable and is exempt from avoidance.
+function keepFocusClear(){
+ const status=$('status'), root=document.documentElement;
+ const box=status.getBoundingClientRect();
+ root.style.setProperty('scroll-padding-block-end',`${box.height?Math.ceil(box.height)+22:0}px`);
+ const target=document.activeElement;
+ if(!box.height||!target||target===document.body||target===root||status.contains(target))return;
+ const rect=target.getBoundingClientRect(), edge=box.top-8;
+ if(rect.right<=box.left||rect.left>=box.right)return;
+ if(rect.top<8){window.scrollBy({top:rect.top-8,behavior:'instant'});return}
+ if(rect.bottom<=edge)return;
+ const distance=Math.min(rect.bottom-edge,Math.max(0,rect.top-8));
+ if(distance>0)window.scrollBy({top:distance,behavior:'instant'});
+}
+const statusResize=new ResizeObserver(keepFocusClear);
+statusResize.observe($('status'));
+window.addEventListener('resize',keepFocusClear);
+document.addEventListener('focusin',()=>{keepFocusClear();requestAnimationFrame(keepFocusClear)});
+function notify(text){const status=$('status');status.textContent=text;status.scrollTop=0;keepFocusClear()}
 function act(fn,message){try{fn();render();notify(message)}catch(e){render();notify(`Not saved: ${e.message}`)}}
 function outcome(a){return a.feasible?'Fits under these assumptions':`${a.earliestBottleneck.deficitUnits/2}h short before ${a.earliestBottleneck.deadline.day} ${a.earliestBottleneck.deadline.time}`}
 function card(label,a){const n=el('article',undefined,a.feasible?'':'warning');n.append(el('h3',label),el('p',outcome(a),'big'),el('p',`${hours(a.usableUnits)} usable · ${hours(a.demandUnits)} needed`),el('p',`${hours(a.protectedUnits)} excluded for protected overlap · ${hours(a.missedUnits)} lost`));return n}
@@ -37,7 +56,7 @@ function drawEditor(focusKey=null,focusIndex=0){const host=$('edit-rows');host.r
  for(const [index,row] of draft[key].entries()){const group=el('div',undefined,'row'),fields=el('div',undefined,'fields');const defs=key==='tasks'?[['Title',row.title,'text','title'],['30-minute units',row.units,'number','units'],['Due day',row.deadline.day,'date','day'],['Due time',row.deadline.time,'text','time']]:[['Label',row.label,'text','label'],['Day',row.day,'date','day'],['Start',row.start,'text','start'],['End',row.end,'text','end']];for(const [label,value,type,prop] of defs){const f=field(label,value,type);f.input.oninput=()=>{const target=key==='tasks'&&['day','time'].includes(prop)?row.deadline:row;target[prop]=type==='number'?Number(f.input.value):f.input.value};fields.append(f.label)}const remove=el('button','Remove this row');remove.type='button';remove.onclick=()=>{draft[key].splice(index,1);drawEditor(key,Math.min(index,draft[key].length-1))};group.append(fields,remove);section.append(group)}
  const add=el('button',`Add ${key==='tasks'?'task':key==='blocks'?'study block':'protected commitment'}`);add.type='button';add.onclick=()=>{const date=$('start-day').value;draft[key].push(key==='tasks'?{id:`manual-${++serial}`,title:'',units:1,deadline:{day:date,time:'18:00'}}:{id:`manual-${++serial}`,label:'',day:date,start:'09:00',end:'10:00'});drawEditor(key,draft[key].length-1)};section.append(add);host.append(section)}
  if(focusKey){const group=$(`editor-${focusKey}`), rows=group.querySelectorAll('.row');const target=rows[focusIndex]?.querySelector('input')||group.querySelector(':scope > button');target?.focus()}}
-$('edit').onclick=()=>{draft=app.begin();app.clearPreview();$('start-day').value=draft.horizon.startDay;$('end-day').value=draft.horizon.endDay;drawEditor();$('editor').hidden=false;render();$('start-day').focus();notify('Editing a staged copy. The saved plan has not changed.')};
+$('edit').onclick=()=>{draft=app.begin();app.clearPreview();$('start-day').value=draft.horizon.startDay;$('end-day').value=draft.horizon.endDay;const missed=app.session.missedDay;$('clear-missed').checked=false;$('clear-missed-option').hidden=missed===null;$('clear-missed-note').textContent=missed===null?'':`Current missed day: ${missed}. Saving keeps this comparison unless you choose to clear it. Clear it if your new horizon excludes this date.`;drawEditor();$('editor').hidden=false;render();$('start-day').focus();notify('Editing a staged copy. The saved plan has not changed.')};
 $('cancel').onclick=()=>{app.cancel();draft=null;$('editor').hidden=true;render();$('edit').focus();notify('Draft discarded. Saved plan unchanged.')};
-$('plan-form').onsubmit=e=>{e.preventDefault();try{draft.horizon={startDay:$('start-day').value,endDay:$('end-day').value};app.save(draft);draft=null;$('editor').hidden=true;render();$('edit').focus();notify('Validated plan saved in page memory. Repair history reset. Reloading will lose this plan.')}catch(error){notify(`Draft kept; saved plan unchanged: ${error.message}`)}};
+$('plan-form').onsubmit=e=>{e.preventDefault();try{draft.horizon={startDay:$('start-day').value,endDay:$('end-day').value};const clearMissedDay=$('clear-missed').checked;app.save(draft,{clearMissedDay});draft=null;$('editor').hidden=true;render();$('edit').focus();notify(`Validated plan saved in page memory.${clearMissedDay?' Missed-day comparison cleared.':''} Repair history reset. Reloading will lose this plan.`)}catch(error){notify(`Draft kept; saved plan unchanged: ${error.message}`)}};
 render();

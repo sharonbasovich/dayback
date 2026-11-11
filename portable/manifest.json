@@ -1,13 +1,13 @@
 {
   "format": "dayback-single-file-v1",
   "sources": {
-    "index.html": "5c04d2a83900e01cb5a63a7c0046ecde7023ead7f1bb209f965232e0749a4060",
-    "style.css": "e80fdc1f73488322fdcd09d4e30ff44912d210f692a5aeb0db640da209fcbc2f",
+    "index.html": "a62abd416a398bcf1f0b23806408d03c8cc9595314a685389d393978a539da7d",
+    "style.css": "f33722e3eca34a6aae87d42dcf6e9e4737b0e7cd6cd509421dcf2fa98d04297e",
     "core.mjs": "557f2bcb806b0938f7c56ad7686628911b96b0e5ed0b14d0b75da6ec70acdeaa",
     "sample.mjs": "ecbfd5d00cf42b818ea80115e8244711849ce0f72a4658e61779f5bc3b9bb2e1",
-    "ui-state.mjs": "fef65dcba98b52bf22203e1f05c875995844936de29b242a06b92d8b8fc9af36",
-    "app.mjs": "7a373d931dc94db184ae8d3699e2911e6f07a46feaaef021fd4aa6637a0dd6a1"
+    "ui-state.mjs": "0707a57bc0d1fac692f1c81e921e7e690e125f9525597a4e752152452bca5011",
+    "app.mjs": "2d82a5761ee5b8c26c03cd4c3bb487255dfd989793bc5018797dce049ad90fb9"
   },
-  "outputSha256": "80b76482b43d3675c79e9cae9db8d39718214bf7f0766730d5bdd2713c79b876",
-  "outputBytes": 57059
+  "outputSha256": "6f4582c77de52c6c28ca8f33b7d88e9afa500a77e97f0f489a48c08fcef47bd6",
+  "outputBytes": 60015
 }

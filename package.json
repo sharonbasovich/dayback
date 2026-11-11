@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test core.test.mjs ui-state.test.mjs export.test.mjs",
+    "test": "node --test core.test.mjs ui-state.test.mjs export.test.mjs horizon-recovery.test.mjs focus-status.test.mjs",
     "demo": "node demo.mjs",
     "export:single": "node export-single-file.mjs"
   }
