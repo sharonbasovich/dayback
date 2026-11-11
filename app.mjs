@@ -13,7 +13,16 @@ function keepFocusClear(){
  root.style.setProperty('scroll-padding-block-end',`${box.height?Math.ceil(box.height)+22:0}px`);
  const target=document.activeElement;
  if(!box.height||!target||target===document.body||target===root||status.contains(target))return;
- const rect=target.getBoundingClientRect(), edge=box.top-8;
+ let rect=target.getBoundingClientRect();
+ const edge=box.top-8;
+ // A wrapping checkbox label is part of its visible choice. Prefer its full
+ // bounds only when they fit; oversized labels must not displace the control.
+ const label=target.matches?.('input[type="checkbox"]')?target.closest('label.checkbox'):null;
+ if(label){const bounds=label.getBoundingClientRect();
+  if(bounds.width>0&&bounds.height>0){const combined={top:Math.min(rect.top,bounds.top),bottom:Math.max(rect.bottom,bounds.bottom),left:Math.min(rect.left,bounds.left),right:Math.max(rect.right,bounds.right)};
+   if(combined.bottom-combined.top<=edge-8)rect=combined;
+  }
+ }
  if(rect.right<=box.left||rect.left>=box.right)return;
  if(rect.top<8){window.scrollBy({top:rect.top-8,behavior:'instant'});return}
  if(rect.bottom<=edge)return;
