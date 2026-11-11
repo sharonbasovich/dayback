@@ -6,6 +6,8 @@ DayBack is a small, local-first prototype for checking whether a study plan stil
 
 ## Open the demo
 
+Applying an unchanged effort estimate reports that no change was applied and existing Undo history was preserved. Undo still targets the last actual repair, if any.
+
 The current source includes an explicit “Clear missed day when saving” control and high-zoom focus/status improvements. The live demo follows GitHub Pages deployments; a source merge alone does not confirm that a deployment has finished. Serve this source locally using the instructions below to test this exact version. The v0.1.0 release assets remain the original snapshot and do not include these corrections.
 
 [Try DayBack in your browser](https://sharonbasovich.github.io/dayback/). The free static demo needs no account or API key. It starts with synthetic data; edits stay in page memory and are lost on reload. Baseline, missed day, late/early repair preview, Apply and Undo were checked on the hosted version.

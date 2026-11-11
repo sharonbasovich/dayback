@@ -34,7 +34,7 @@ statusResize.observe($('status'));
 window.addEventListener('resize',keepFocusClear);
 document.addEventListener('focusin',()=>{keepFocusClear();requestAnimationFrame(keepFocusClear)});
 function notify(text){const status=$('status');status.textContent=text;status.scrollTop=0;keepFocusClear()}
-function act(fn,message){try{fn();render();notify(message)}catch(e){render();notify(`Not saved: ${e.message}`)}}
+function act(fn,message){try{fn();render();notify(typeof message==='function'?message():message)}catch(e){render();notify(`Not saved: ${e.message}`)}}
 function outcome(a){return a.feasible?'Fits under these assumptions':`${a.earliestBottleneck.deficitUnits/2}h short before ${a.earliestBottleneck.deadline.day} ${a.earliestBottleneck.deadline.time}`}
 function card(label,a){const n=el('article',undefined,a.feasible?'':'warning');n.append(el('h3',label),el('p',outcome(a),'big'),el('p',`${hours(a.usableUnits)} usable · ${hours(a.demandUnits)} needed`),el('p',`${hours(a.protectedUnits)} excluded for protected overlap · ${hours(a.missedUnits)} lost`));return n}
 function render(){const s=app.session,a=app.analysis();$('range').textContent=`${s.plan.horizon.startDay} → ${s.plan.horizon.endDay} · 1 unit = 30 minutes`;
@@ -58,7 +58,7 @@ $('late').onclick=()=>act(()=>app.preview({...lateRepair,block:{...lateRepair.bl
 $('repair-type').onchange=()=>{const block=$('repair-type').value==='block';$('block-fields').hidden=!block;$('effort-fields').hidden=block;for(const i of $('block-fields').querySelectorAll('input'))i.required=block;app.clearPreview();render()};
 $('repair').addEventListener('input',()=>{app.clearPreview();$('preview').hidden=true;$('apply').disabled=true});
 $('repair').onsubmit=e=>{e.preventDefault();act(()=>app.preview($('repair-type').value==='block'?{type:'addBlock',block:{id:`repair-${++serial}`,label:$('block-label').value,day:$('block-day').value,start:$('block-start').value,end:$('block-end').value}}:{type:'setTaskUnits',taskId:$('task-id').value,units:Number($('task-units').value)}),'Preview ready. No saved plan change yet.')};
-$('apply').onclick=()=>act(()=>app.apply(),'Repair applied to this in-page plan. Undo is available.');
+$('apply').onclick=()=>{const revision=app.session.revision;act(()=>app.apply(),()=>app.session.revision===revision?'No change was applied. Existing Undo history was preserved.':'Repair applied to this in-page plan. Undo is available.')};
 $('undo').onclick=()=>act(()=>app.undo(),'Previous plan restored. Any preview was cleared.');
 function field(name,value,type='text'){const label=el('label',name),input=el('input');input.type=type;input.value=value;input.required=true;if(type==='number'){input.min='1';input.max='1488';input.step='1'}else if(type==='text')input.maxLength=160;label.append(input);return {label,input}}
 function drawEditor(focusKey=null,focusIndex=0){const host=$('edit-rows');host.replaceChildren();for(const key of ['tasks','blocks','commitments']){const section=el('fieldset');section.id=`editor-${key}`;section.append(el('legend',key==='commitments'?'Protected commitments':key==='blocks'?'Study blocks':'Tasks'));
