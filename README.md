@@ -6,6 +6,8 @@ DayBack is a small, local-first prototype for checking whether a study plan stil
 
 ## Open the demo
 
+The current source includes an explicit “Clear missed day when saving” control and high-zoom focus/status improvements. The live demo follows GitHub Pages deployments; a source merge alone does not confirm that a deployment has finished. Serve this source locally using the instructions below to test this exact version. The v0.1.0 release assets remain the original snapshot and do not include these corrections.
+
 [Try DayBack in your browser](https://sharonbasovich.github.io/dayback/). The free static demo needs no account or API key. It starts with synthetic data; edits stay in page memory and are lost on reload. Baseline, missed day, late/early repair preview, Apply and Undo were checked on the hosted version.
 
 The v0.1.0 release assets remain the original reviewed snapshot; their embedded documentation predates this hosting update. Local run instructions below still apply.
@@ -43,7 +45,9 @@ Tests cover deadline bottlenecks, exact boundaries, protected overlap, immutable
 2. Read the deadline explanation. The total hours match, but the first deadline does not fit.
 3. Try Saturday +2h, then Thursday +2h. Preview does not change the plan.
 4. Apply only if that earlier time is genuinely available; then try Undo.
-5. Edit the plan to stage your own tasks, study blocks and protected commitments. Invalid saves retain the draft. Cancel discards it.
+5. Edit the plan to stage your own tasks, study blocks and protected commitments. Invalid saves retain the draft. Cancel discards it. When a missed day is selected, the editor offers an unchecked **Clear missed day when saving** choice. Use it to save a new horizon that excludes that date without losing your staged edits. Saving without the choice keeps the existing missed-day comparison; failed validation never clears it.
+
+Long status messages stay within a scrollable region at high zoom. Tab to the message and use Home or End to read its beginning or end; Shift+Tab returns to the previous control. New updates start at the beginning of the message.
 
 An effort revision is an explicit estimate or scope change, not completed work. Changing the missed-day scenario or saving a plan clears repair history while retaining the current plan. The baseline means the current plan without a missed day, not an immutable original.
 

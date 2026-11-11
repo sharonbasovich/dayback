@@ -12,7 +12,7 @@ export function controller(plan) {
   undo(){session=undoRepair(session);pending=null},
   begin(){planDraft=structuredClone(session.plan);return structuredClone(planDraft)},
   cancel(){planDraft=null},
-  save(plan){validatePlan(plan);const next=createSession(plan,session.missedDay);next.revision=session.revision+1;session=next;pending=null;planDraft=null}
+  save(plan,{clearMissedDay=false}={}){if(typeof clearMissedDay!=='boolean')throw TypeError('Choose whether to clear the missed day');validatePlan(plan);const next=createSession(plan,clearMissedDay?null:session.missedDay);next.revision=session.revision+1;session=next;pending=null;planDraft=null}
  };
 }
 
